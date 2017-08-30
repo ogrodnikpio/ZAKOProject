@@ -1,14 +1,14 @@
 '''
 Distributed Tensorflow 1.2.0 example of using data parallelism and share model parameters.
-Trains a simple sigmoid neural network on mnist for 20 epochs on three machines using one parameter server. 
+Trains a simple sigmoid neural network on mnist for 20 epochs on three machines using one parameter server.
 
-Change the hardcoded host urls below with your own hosts. 
-Run like this: 
+Change the hardcoded host urls below with your own hosts.
+Run like this:
 
-pc-01$ python example.py --job_name="ps" --task_index=0 
-pc-02$ python example.py --job_name="worker" --task_index=0 
-pc-03$ python example.py --job_name="worker" --task_index=1 
-pc-04$ python example.py --job_name="worker" --task_index=2 
+pc-01$ python example.py --job_name="ps" --task_index=0
+pc-02$ python example.py --job_name="worker" --task_index=0
+pc-03$ python example.py --job_name="worker" --task_index=1
+pc-04$ python example.py --job_name="worker" --task_index=2
 
 More details here: ischlag.github.io
 '''
@@ -20,10 +20,10 @@ import sys
 import time
 
 # cluster specification
-parameter_servers = ["pc-01:2222"]
-workers = ["pc-02:2222",
-           "pc-03:2222",
-           "pc-04:2222"]
+parameter_servers = ["piotr01-VirtualBox:2222"]
+workers = ["piotr02-VirtualBox:2222",
+           "piotr03-VirtualBox:2222",
+           "piotr04-VirtualBox:2222"]
 cluster = tf.train.ClusterSpec({"ps": parameter_servers, "worker": workers})
 
 # input flags
@@ -125,7 +125,7 @@ elif FLAGS.job_name == "worker":
         tf.summary.scalar("cost", cross_entropy)
         tf.summary.scalar("accuracy", accuracy)
 
-        # merge all summaries into a single "operation" which we can execute in a session 
+        # merge all summaries into a single "operation" which we can execute in a session
         summary_op = tf.summary.merge_all()
         init_op = tf.global_variables_initializer()
         print("Variables initialized ...")
